@@ -9,7 +9,7 @@ function getTitles(substr) {
     function getTotalPages(next) {
       https.get(url + substr, (res) => {
         res.setEncoding('utf8');
-        res.on('data', function(body) {   // lambda style: (body) => {}
+        res.on('data', function(body) {   // lambda arrow function: (body) => {}
           body = JSON.parse(body);
           next(null, body['total_pages']);
         });
@@ -21,7 +21,7 @@ function getTitles(substr) {
       for (var i = 1; i <= total_pages; i++) {
         https.get(url + substr + '&page=' + i, (res) => {
           res.setEncoding('utf8');
-          res.on('data', function(body) {   // lambda style: (body) => {}
+          res.on('data', function(body) {
             body = JSON.parse(body);
             for (var j = 0; j < body['data'].length; j++) {
               titles.push(body['data'][j]['Title']);

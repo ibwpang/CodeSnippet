@@ -1,4 +1,3 @@
-
 var async = require('async');
 var https = require('https');
 var url = 'https://jsonmock.hackerrank.com/api/movies/search/?Title=';

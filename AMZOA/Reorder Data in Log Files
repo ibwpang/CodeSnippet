@@ -1,0 +1,27 @@
+class Solution {
+    public String[] reorderLogFiles(String[] logs) {
+        if (logs == null || logs.length == 0) {
+            return logs;
+        }
+        Arrays.sort(logs, new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                if (Character.isLetter(s1.split(" ")[1].charAt(0)) && Character.isDigit(s2.split(" ")[1].charAt(0))) {
+                    return -1;
+                }
+                if (Character.isDigit(s1.split(" ")[1].charAt(0)) && Character.isLetter(s2.split(" ")[1].charAt(0))) {
+                    return 1;
+                }
+                if (Character.isLetter(s1.split(" ")[1].charAt(0)) && Character.isLetter(s2.split(" ")[1].charAt(0))) {
+                    if (s1.substring(s1.indexOf(" ") + 1).compareTo(s2.substring(s2.indexOf(" ") + 1)) == 0) {
+                        return s1.split(" ")[0].compareTo(s2.split(" ")[0]);
+                    } else {
+                        return s1.substring(s1.indexOf(" ") + 1).compareTo(s2.substring(s2.indexOf(" ") + 1));
+                    }
+                }
+                return 0;
+            }
+        });
+        return logs;
+    }
+}

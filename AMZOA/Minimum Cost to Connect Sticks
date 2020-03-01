@@ -1,0 +1,16 @@
+class Solution {
+    public int connectSticks(int[] sticks) {
+        Queue<Integer> queue = new PriorityQueue<>();
+        for (int i : sticks) {
+            queue.offer(i);
+        }
+        int ans = 0;
+        while (queue.size() > 1) {
+            int a = queue.poll();
+            int b = queue.poll();
+            ans += a + b;
+            queue.offer(a + b);
+        }
+        return ans;
+    }
+}

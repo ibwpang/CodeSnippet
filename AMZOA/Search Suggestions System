@@ -1,0 +1,40 @@
+class Solution {
+    class Node {
+        char val;
+        Node[] children;
+        List<String> suggestion;
+        public Node(char val) {
+            this.val = val;
+            this.children = new Node[26];
+            this.suggestion = new ArrayList<>();
+        }
+    }
+    public List<List<String>> suggestedProducts(String[] products, String searchWord) {
+        Arrays.sort(products); 
+        Node root = new Node(' ');
+        for (String product : products) {
+            add(root, product);
+        }
+        List<List<String>> ans = new ArrayList<>();
+        for (char c : searchWord.toCharArray()) { 
+            if (root != null) {
+                root = root.children[c - 'a'];
+            }
+            ans.add(root == null ? new ArrayList<>() : root.suggestion);
+        }
+        return ans;
+    }
+    
+    public void add(Node root, String product) {
+        Node node = root;
+        for (char c : product.toCharArray()) { 
+            if (node.children[c - 'a'] == null) {
+                node.children[c - 'a'] = new Node(c);
+            }
+            node = node.children[c - 'a'];
+            if (node.suggestion.size() < 3) {
+                node.suggestion.add(product);
+            }
+        }
+    }
+}

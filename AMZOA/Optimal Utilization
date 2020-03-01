@@ -1,0 +1,108 @@
+import java.util.*;
+
+public class MaxDist {
+	public static List<List<Integer>> maxDist(int maximumOperatingTravelDistance, 
+							  List<List<Integer>> forwardShippingRouteList, 
+							  List<List<Integer>> backwardShippingRouteList) {
+		List<List<Integer>> ans = new ArrayList<>();
+		if (maximumOperatingTravelDistance <= 0 || 
+			forwardShippingRouteList == null || forwardShippingRouteList.size() == 0 || 
+			backwardShippingRouteList == null || backwardShippingRouteList.size() == 0) {
+			return ans;
+		}
+		Collections.sort(forwardShippingRouteList, new Comparator<List<Integer>>(){
+			@Override
+			public int compare(List<Integer> r1, List<Integer> r2) {
+				return r1.get(1) - r2.get(1);
+			}
+		});
+		Collections.sort(backwardShippingRouteList, new Comparator<List<Integer>>(){
+			@Override
+			public int compare(List<Integer> r1, List<Integer> r2) {
+				return r1.get(1) - r2.get(1);
+			}
+		});
+		int currentMax = 0;
+		int i = 0;
+		int j = backwardShippingRouteList.size() - 1;
+		while (i < forwardShippingRouteList.size() && j >= 0) {
+			int sum = forwardShippingRouteList.get(i).get(1) + backwardShippingRouteList.get(j).get(1);
+			if (sum > maximumOperatingTravelDistance) {
+				j--;
+			} else {
+				if (sum >= currentMax) {
+					if (sum > currentMax) {
+						ans = new ArrayList<>();
+						currentMax = sum;
+					}
+					ans.add(Arrays.asList(forwardShippingRouteList.get(i).get(0), backwardShippingRouteList.get(j).get(0)));
+				}
+				i++;
+			}
+		}
+		return ans;
+	}
+
+	public static void main(String[] args) {
+		// test 1
+		int maximumOperatingTravelDistance = 21;
+		List<List<Integer>> forwardShippingRouteList = new ArrayList<>(); 
+		List<List<Integer>> backwardShippingRouteList = new ArrayList<>();
+		forwardShippingRouteList.add(Arrays.asList(0, 3));
+		forwardShippingRouteList.add(Arrays.asList(1, 6));
+		forwardShippingRouteList.add(Arrays.asList(2, 7));
+		forwardShippingRouteList.add(Arrays.asList(3, 9));
+		forwardShippingRouteList.add(Arrays.asList(4, 11));
+		backwardShippingRouteList.add(Arrays.asList(0, 2));
+		backwardShippingRouteList.add(Arrays.asList(1, 8));
+		backwardShippingRouteList.add(Arrays.asList(2, 11));
+		backwardShippingRouteList.add(Arrays.asList(3, 13));
+		backwardShippingRouteList.add(Arrays.asList(4, 20));
+		System.out.println(maxDist(maximumOperatingTravelDistance, forwardShippingRouteList, backwardShippingRouteList).toString());
+		// test 2 
+		maximumOperatingTravelDistance = 8000;
+		forwardShippingRouteList = new ArrayList<>(); 
+		backwardShippingRouteList = new ArrayList<>();
+		forwardShippingRouteList.add(Arrays.asList(1, 3000));
+		forwardShippingRouteList.add(Arrays.asList(2, 4000));
+		backwardShippingRouteList.add(Arrays.asList(3, 4000));
+		backwardShippingRouteList.add(Arrays.asList(4, 2000));
+		backwardShippingRouteList.add(Arrays.asList(5, 5000));
+		System.out.println(maxDist(maximumOperatingTravelDistance, forwardShippingRouteList, backwardShippingRouteList).toString());
+	}
+}
+
+
+
+
+
+private List<int[]> getPairs(List<int[]> a, List<int[]> b, int target) {
+        Collections.sort(a, (i,j) -> i[1] - j[1]);
+        Collections.sort(b, (i,j) -> i[1] - j[1]);
+        List<int[]> result = new ArrayList<>();
+        int max = Integer.MIN_VALUE;
+        int m = a.size();
+        int n = b.size();
+        int i =0;
+        int j =n-1;
+        while(i<m && j >= 0) {
+            int sum = a.get(i)[1] + b.get(j)[1];
+            if(sum > target) {
+                 --j;
+            } else {
+                if(max <= sum) {
+                    if(max < sum) {
+                        max = sum;
+                        result.clear();
+                    }
+                    result.add(new int[]{a.get(i)[0], b.get(j)[0]});
+                    int index = j-1;
+                    while(index >=0 && b.get(index)[1] == b.get(index+1)[1]) {
+                         result.add(new int[]{a.get(i)[0], b.get(index--)[0]});
+                    }
+                }
+                ++i;
+            }
+        }
+        return result;
+    } 

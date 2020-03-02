@@ -1,4 +1,4 @@
-// https://www.youtube.com/watch?v=aZXi1unBdJA
+// https://www.youtube.com/watch?v=aZXi1unBdJA (related Tarjan's algorithm)
 
 public class Main {
     static int id;
@@ -13,6 +13,7 @@ public class Main {
 
     private static List<Integer> getCriticalNodes(int[][] links, int numLinks, int numRouters) {
         id = 0;
+        outBound = 0;
         Map<Integer, Set<Integer>> map = new HashMap<>();
         for (int i = 0; i < numRouters; i++) {
             map.put(i, new HashSet<>());

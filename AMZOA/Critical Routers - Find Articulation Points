@@ -30,7 +30,7 @@ public class Main {
             if(!visited[i]){
                 outBound = 0;
                 dfs(map, low, ids, visited, i, i, -1, isArt);
-                isArt[i] = outBound > 1;
+                isArt[i] = outBound > 1;   // root without parent has more than one children
             }   
         }
         List<Integer> ans = new ArrayList<>();
